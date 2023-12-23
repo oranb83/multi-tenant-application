@@ -27,4 +27,6 @@ class TenantBasedRouter(DynamicDbRouter):
                 # Assuming database server names are db_server_1, db_server_2, db_server_3, etc.
                 return f'db_server_{db_server_index}'
 
-        raise ValueError('Tenant ID not found in request')
+        # Return the default database if no tenant ID was found. I can also raise an error here,
+        # but it will break my shell_plus command for RUD operations.
+        return 'default'

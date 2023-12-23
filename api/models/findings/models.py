@@ -65,8 +65,8 @@ class Finding(models.Model):
     sensor = models.CharField(max_length=255, unique=True, null=False, blank=False)
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, null=False, blank=False)
     # Not entirely sure it should be represented as a foreign key, but it makes sense to me
-    tenant_id = models.ForeignKey(Tenant, on_delete=models.CASCADE, null=False, blank=False,
-                                  db_index=True)
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, null=False, blank=False,
+                               db_index=True)
     # Although not requested, it's important to add the updated_at column for
     # observability and debugging
     updated_at = models.DateTimeField(auto_now=True)

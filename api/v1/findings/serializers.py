@@ -42,7 +42,7 @@ class AddNewFindingSerializer(serializers.ModelSerializer):
 
         return data
 
-    def create(self, validated_data: Dict[str, Any]) -> Finding:
+def create(self, validated_data: Dict[str, Any]) -> Finding:
         """
         Create a new finding object.
         """
@@ -50,12 +50,18 @@ class AddNewFindingSerializer(serializers.ModelSerializer):
         resource = Resource.objects.create(**resource_data)
 
         tenant_id = self.context['request'].parser_context['kwargs']['tenant_id']
-        # Check if the tenant already exists or create a new one
-        Tenant.objects.get_or_create(tenant_id=tenant_id)
 
-        finding = Finding.objects.create(resource=resource, tenant_id=tenant_id, **validated_data)
+        # Check if the tenant already exists or create a new one
+        tenant_instance, _ = Tenant.objects.get_or_create(tenant_id=tenant_id)
+
+        finding = Finding.objects.create(
+            resource=resource,
+            tenant_id=tenant_instance,  # Assign the Tenant instance, not just the ID
+            **validated_data
+        )
 
         return finding
+
 
 class FindingListSerializer(serializers.ModelSerializer):
     """

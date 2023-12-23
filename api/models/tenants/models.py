@@ -9,7 +9,7 @@ class Tenant(models.Model):
     @ivar tenant_id: The unique identifier for the finding.
     @type tenant_id: int
     """
-    tenant_id = models.IntegerField(primary_key=True)
+    id = models.IntegerField(primary_key=True)
     # Note: we will need to add more fields here in the future, such as name, etc.
     # name = models.CharField(max_length=255)
 

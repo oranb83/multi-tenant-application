@@ -1,3 +1,4 @@
+from django.urls import path
 from django.conf.urls import url, include
 
 from drf_yasg.views import get_schema_view
@@ -24,5 +25,5 @@ urlpatterns = [
     #   I have no context here. I don't know if the findings are tenant-specific or not and what
     #   are the requirements for future tenants, so I assumed that all the endpoints are
     #   tenant-specific.
-    url(r'^tenants/<int:tenant_id>/findings/', include('api.v1.findings.urls')),
+    path('tenants/<int:tenant_id>/findings/', include('api.v1.findings.urls'))
 ]
