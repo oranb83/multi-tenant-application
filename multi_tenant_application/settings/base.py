@@ -23,7 +23,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'rest_framework',  # Enable rest framework
-    'dynamic_db_router'  # Enable DB router
+    'dynamic_db_router',  # Enable DB router
+    'django_extensions'
 ]
 
 ROOT_URLCONF = 'multi_tenant_application.urls'
