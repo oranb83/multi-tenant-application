@@ -34,8 +34,7 @@ class AddNewFindingSerializer(serializers.ModelSerializer):
         """
         tenant_id = self.context['request'].parser_context['kwargs']['tenant_id']
         external_id = data.get('external_id')
-
-        if Finding.objects.filter(external_id=external_id, tenant_id=tenant_id).exists():
+        if Finding.objects.filter(external_id=external_id, tenant=tenant_id).exists():
             raise DuplicatedExternalIdException(
                 {"error": "Finding with this external ID already exists for this tenant"}
             )
@@ -52,11 +51,11 @@ def create(self, validated_data: Dict[str, Any]) -> Finding:
         tenant_id = self.context['request'].parser_context['kwargs']['tenant_id']
 
         # Check if the tenant already exists or create a new one
-        tenant_instance, _ = Tenant.objects.get_or_create(tenant_id=tenant_id)
+        tenant_instance, _ = Tenant.objects.get_or_create(tenant=tenant_id)
 
         finding = Finding.objects.create(
             resource=resource,
-            tenant_id=tenant_instance,  # Assign the Tenant instance, not just the ID
+            tenant=tenant_instance,  # Assign the Tenant instance, not just the ID
             **validated_data
         )
 

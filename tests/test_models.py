@@ -32,7 +32,7 @@ def test_finding_model():
     assert finding.created_at is not None
     assert finding.sensor == 'Sensor'
     assert finding.resource == resource
-    assert finding.tenant_id == tenant
+    assert finding.tenant == tenant
 
     # Test the __str__ method
     assert str(finding) == '123'

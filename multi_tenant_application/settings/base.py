@@ -9,7 +9,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'your_secret_key'
 DEBUG = True  # Set to False in production
 
-
 # Application definition
 INSTALLED_APPS = [
     'api',  # Application definition

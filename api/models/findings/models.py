@@ -75,4 +75,4 @@ class Finding(models.Model):
         return f'{self.title} ({self.external_id})'
 
     class Meta:
-        unique_together = ('tenant_id', 'external_id')
+        unique_together = ('tenant', 'external_id')
