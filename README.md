@@ -55,6 +55,10 @@ This project is a multi-tenant Django application that implements a REST API for
     docker-compose up
     ```
 
+3. Since I have an issue with the commented docker-composed part called 'web', you are requested to
+   add open a new tab and run the Option 2 setup as #2 command will only run a docker that will run
+   your DB.
+
 ### Option 2: Without Docker
 
 1. Run the Django server:
