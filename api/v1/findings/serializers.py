@@ -4,13 +4,13 @@ from typing import Dict, Any
 from api.exceptions import DuplicatedExternalIdException
 from api.models.resources.models import Resource
 from api.models.findings.models import Finding
+from api.models.tenants.models import Tenant
 
 
 class ResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resource
         fields = ('unique_id', 'name', 'cloud_account')
-
 
 class AddNewFindingSerializer(serializers.ModelSerializer):
     """
@@ -49,10 +49,13 @@ class AddNewFindingSerializer(serializers.ModelSerializer):
         resource_data = validated_data.pop('resource')
         resource = Resource.objects.create(**resource_data)
 
-        finding = Finding.objects.create(resource=resource, **validated_data)
+        tenant_id = self.context['request'].parser_context['kwargs']['tenant_id']
+        # Check if the tenant already exists or create a new one
+        Tenant.objects.get_or_create(tenant_id=tenant_id)
+
+        finding = Finding.objects.create(resource=resource, tenant_id=tenant_id, **validated_data)
 
         return finding
-
 
 class FindingListSerializer(serializers.ModelSerializer):
     """

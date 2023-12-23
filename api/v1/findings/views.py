@@ -9,11 +9,21 @@ class FindingListCreateView(generics.ListCreateAPIView):
     """
     View for listing and creating findings for a specific tenant.
     """
-    serializer_class = FindingListSerializer
-
     def get_queryset(self):
         tenant_id = self.kwargs.get('tenant_id')
         return Finding.objects.filter(tenant_id=tenant_id)
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return AddNewFindingSerializer
+        return FindingListSerializer
+
+    @swagger_auto_schema(
+        operation_summary='List Findings for a single Tenant',
+        operation_description='This endpoint allows listing findings for a specific tenant.'
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
     @swagger_auto_schema(
         responses={
@@ -25,11 +35,4 @@ class FindingListCreateView(generics.ListCreateAPIView):
         operation_description='This endpoint allows creating a finding for a specific tenant.'
     )
     def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-    @swagger_auto_schema(
-        operation_summary='List Findings for a single Tenant',
-        operation_description='This endpoint allows listing findings for a specific tenant.'
-    )
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)

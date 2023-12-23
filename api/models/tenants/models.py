@@ -11,3 +11,7 @@ class Tenant(models.Model):
     """
     tenant_id = models.IntegerField(primary_key=True)
     # Note: we will need to add more fields here in the future, such as name, etc.
+    # name = models.CharField(max_length=255)
+
+    # def __str__(self):
+    #     return f'Tenant {self.tenant_id}'
