@@ -25,7 +25,7 @@ ROOT_URLCONF = "multi_tenant_application.urls"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Database router settings
-DATABASE_ROUTERS = ['routers.TenantBasedRouter']
+DATABASE_ROUTERS = ['multi_tenant_application.routers.TenantBasedRouter']
 
 # Database configuration for PostgreSQL
 DB_ENGINE = os.getenv('DB_ENGINE', 'django.db.backends.postgresql')
