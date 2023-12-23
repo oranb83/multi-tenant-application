@@ -12,9 +12,10 @@ DEBUG = True  # Set to False in production
 
 # Application definition
 INSTALLED_APPS = [
-    'django.contrib.contenttypes',  # Enable content types
-    "api",  # Application definition
-    "rest_framework",  # Enable rest framework
+    'django.contrib.contenttypes',
+    'django.contrib.auth',
+    'api',  # Application definition
+    'rest_framework',  # Enable rest framework
     'dynamic_db_router'  # Enable DB router
 ]
 
