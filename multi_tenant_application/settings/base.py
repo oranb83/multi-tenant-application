@@ -6,8 +6,8 @@ SECRET_KEY = 'your_secret_key'
 DEBUG = True  # Set to False in production
 
 INSTALLED_APPS = [
-    'api',
-    'dynamic_db_router'
+    'multi-tenant_application.api',
+    'multi-tenant_application.dynamic_db_router'
 ]
 
 # Database router settings
