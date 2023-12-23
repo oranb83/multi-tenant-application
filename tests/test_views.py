@@ -1,8 +1,10 @@
+from datetime import datetime
+
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from datetime import datetime
-from multi_tenant_application.api.models.resources.models import Resource
+
+from api.models.resources.models import Resource
 from api.models.tenants.models import Tenant
 
 
