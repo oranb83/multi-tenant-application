@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 
+
 urlpatterns = [
     # API endpoints
-    url(r'^api/', include('multi_tenant_application.api.urls')),
+    url(r'^api/', include('api.urls')),
 ]

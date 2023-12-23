@@ -30,4 +30,4 @@ class Resource(models.Model):
         return f'{self.name} ({self.unique_id})'
 
     class Meta:
-        unique_together = ('uniqueId', 'account')
+        unique_together = ('unique_id', 'cloud_account')

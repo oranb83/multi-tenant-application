@@ -32,6 +32,13 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+    links:
+      - postgres:postgres
+    container_name: multi-tenant_web_1
+    depends_on:
+      - postgres
+    networks:
+      - pgnetwork
 
 networks:
   pgnetwork:

@@ -15,4 +15,5 @@ RUN pip install poetry && poetry config virtualenvs.create false && poetry insta
 
 COPY . /app/
 
-CMD ["gunicorn","--bind","0.0.0.0:8000","--timeout","180","multi_tenant_application.wsgi","--workers","2","--threads","4","--worker-class","gthread"]
+CMD python manage.py runserver
+# CMD ["gunicorn","--bind","0.0.0.0:8000","--timeout","180","multi_tenant_application.wsgi","--workers","2","--threads","4","--worker-class","gthread"]
