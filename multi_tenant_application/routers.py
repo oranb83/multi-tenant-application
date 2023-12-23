@@ -6,7 +6,6 @@ class TenantBasedRouter(DynamicDbRouter):
     def db_for_read(self, model, **hints):
         # Retrieve the request object
         request = hints.get('request')
-        breakpoint()
         if request:
             # Extract 'id' from the URL parameters or URL path
             id = request.parser_context['kwargs'].get('id')
