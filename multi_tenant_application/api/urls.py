@@ -1,21 +1,9 @@
-"""multi_tenant_application URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.conf.urls import include, url
 
 urlpatterns = [
-    # API endpoints
-    url(r'^v1/', include('api.v1.urls')),
+    # The following URL pattern includes the 'multi_tenant_application.api.v1.urls' for a specific tenant.
+    # The 'tenant_id' parameter in the URL is used to identify the specific tenant.
+    # I can easily change it, with the urls.py files hirarchy, in case I need to create APIs
+    # that will pass the tenant_id as a parameter in the URL.
+    url(r'^v1/tenants/<int:tenant_id>/', include('multi_tenant_application.api.v1.urls'))
 ]

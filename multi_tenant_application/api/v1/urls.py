@@ -18,5 +18,5 @@ urlpatterns = [
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
     # API Endpoints
-    url(r'^findings/', include('api.v1.findings.urls')),
+    url(r'^findings/', include('multi_tenant_application.api.v1.findings.urls')),
 ]

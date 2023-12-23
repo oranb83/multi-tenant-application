@@ -14,10 +14,10 @@ INSTALLED_APPS = [
 DATABASE_ROUTERS = ['routers.TenantBasedRouter']
 
 # Database configuration for PostgreSQL
-DB_NAME = os.getenv('DB_NAME', 'new_portal_v2')
-DB_ENGINE = os.getenv('DB_ENGINE', 'psqlextra.backend')
+DB_NAME = os.getenv('DB_NAME', 'multi_tenant_app')
+DB_ENGINE = os.getenv('DB_ENGINE', 'django.db.backends.postgresql')
 DB_PORT = os.getenv('DB_PORT', '5432')
-DB_TEST_NAME = os.getenv('DB_TEST_NAME', 'portal_v2_test')
+DB_TEST_NAME = os.getenv('DB_TEST_NAME', 'multi_tenant_app')
 
 DATABASES = {
     'default': {

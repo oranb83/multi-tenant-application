@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from typing import Dict, Any
 
-from api.exceptions import DuplicatedExternalIdException
-from api.models.resources.models import Resource
+from multi_tenant_application.api.exceptions import DuplicatedExternalIdException
+from multi_tenant_application.api.models.resources.models import Resource
 from ...models.findings.models import Finding
 
 

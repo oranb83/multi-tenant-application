@@ -1,13 +1,13 @@
 import pytest
 from django.utils import timezone
 
-from api.models.findings.models import Finding
-from api.models.findings.tenants.resources.models import Resource
-from api.models.findings.tenants.models import Tenant
+from multi_tenant_application.api.models.findings.models import Finding
+from multi_tenant_application.api.models.resources.models import Resource
+from multi_tenant_application.api.models.tenants.models import Tenant
+
 
 @pytest.mark.django_db
 def test_finding_model():
-
     # Create a sample resource and tenant
     resource = Resource.objects.create(name='Sample Resource')
     tenant = Tenant.objects.create(name='Sample Tenant')

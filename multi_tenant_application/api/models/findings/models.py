@@ -1,7 +1,7 @@
 from django.db import models
 
-from api.models.resources.models import Resource
-from api.models.tenants.models import Tenant
+from multi_tenant_application.api.models.resources.models import Resource
+from multi_tenant_application.api.models.tenants.models import Tenant
 
 class Finding(models.Model):
     """
