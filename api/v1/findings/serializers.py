@@ -51,7 +51,7 @@ class AddNewFindingSerializer(serializers.ModelSerializer):
         tenant_id = self.context['request'].parser_context['kwargs']['tenant_id']
 
         # Check if the tenant already exists or create a new one
-        tenant_instance, _ = Tenant.objects.get_or_create(tenant=tenant_id)
+        tenant_instance, _ = Tenant.objects.get_or_create(id=tenant_id)
 
         finding = Finding.objects.create(
             resource=resource,
