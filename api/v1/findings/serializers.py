@@ -12,6 +12,7 @@ class ResourceSerializer(serializers.ModelSerializer):
         model = Resource
         fields = ('unique_id', 'name', 'cloud_account')
 
+
 class AddNewFindingSerializer(serializers.ModelSerializer):
     """
     Serializer for adding a new finding.
@@ -32,26 +33,28 @@ class AddNewFindingSerializer(serializers.ModelSerializer):
 
         @raises DuplicatedExternalIdException: If a finding with the same external ID already exists for the tenant.
         """
-        tenant_id = self.context['request'].parser_context['kwargs']['tenant_id']
+        id = self.context['request'].parser_context['kwargs']['id']
         external_id = data.get('external_id')
-        if Finding.objects.filter(external_id=external_id, tenant=tenant_id).exists():
+        breakpoint()
+        if Finding.objects.filter(external_id=external_id, tenant=id).exists():
             raise DuplicatedExternalIdException(
                 {"error": "Finding with this external ID already exists for this tenant"}
             )
 
         return data
 
-def create(self, validated_data: Dict[str, Any]) -> Finding:
+    def create(self, validated_data: Dict[str, Any]) -> Finding:
         """
         Create a new finding object.
         """
         resource_data = validated_data.pop('resource')
         resource = Resource.objects.create(**resource_data)
 
-        tenant_id = self.context['request'].parser_context['kwargs']['tenant_id']
+        id = self.context['request'].parser_context['kwargs']['id']
 
         # Check if the tenant already exists or create a new one
-        tenant_instance, _ = Tenant.objects.get_or_create(tenant=tenant_id)
+        breakpoint()
+        tenant_instance, _ = Tenant.objects.get_or_create(tenant=id)
 
         finding = Finding.objects.create(
             resource=resource,

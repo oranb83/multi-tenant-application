@@ -29,8 +29,8 @@ class Finding(models.Model):
     @ivar resource: The resource associated with the finding.
     @type resource: Resource
 
-    @ivar tenant_id: The tenant associated with the finding.
-    @type tenant_id: Tenant
+    @ivar tenant: The tenant associated with the finding.
+    @type tenant: Tenant
 
     @ivar updated_at: The timestamp when the finding was last updated.
     @type updated_at: datetime
@@ -54,7 +54,7 @@ class Finding(models.Model):
     #   - Indexes will be added based on the queries that will be performed on the DB.
     #   - I was not sure if the meaining was that the external_id is the primary key or not,
     #     since I don't understand if an external_id can be shared with more than one tenant.
-    #     Anyway, I decided to add a unique constraint on the tenant_id and external_id columns,
+    #     Anyway, I decided to add a unique constraint on the tenant and external_id columns,
     #     since it makes sense to me.
     external_id = models.CharField(max_length=255, null=False, blank=False)
     type = models.CharField(max_length=255, null=False, blank=False)

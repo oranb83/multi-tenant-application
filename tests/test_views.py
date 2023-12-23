@@ -10,7 +10,7 @@ from api.models.tenants.models import Tenant
 
 class FindingListCreateViewTests(APITestCase):
     def setUp(self):
-        self.tenant = Tenant.objects.create(tenant_id=1)  # Create a Tenant object
+        self.tenant = Tenant.objects.create(id=1)  # Create a Tenant object
         self.resource = Resource.objects.create(unique_id='123', name='TestResource', cloud_account='AWS')  # Create a Resource object
         self.valid_test_data = {
             'external_id': '001',
@@ -20,18 +20,18 @@ class FindingListCreateViewTests(APITestCase):
             'created_at': datetime.now(),
             'sensor': 'Sensor A',
             'resource': self.resource,
-            'tenant_id': self.tenant.tenant_id
+            'id': self.tenant.id
         }
         self.invalid_test_data = {
             # Add invalid test data if needed
         }
 
     def test_create_finding(self):
-        url = reverse('finding-list-create', kwargs={'tenant_id': self.tenant.tenant_id})
+        url = reverse('finding-list-create', kwargs={'id': self.tenant.id})
         response = self.client.post(url, self.valid_test_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_list_findings(self):
-        url = reverse('finding-list-create', kwargs={'tenant_id': self.tenant.tenant_id})
+        url = reverse('finding-list-create', kwargs={'id': self.tenant.id})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

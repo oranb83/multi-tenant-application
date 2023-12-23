@@ -10,8 +10,9 @@ class FindingListCreateView(generics.ListCreateAPIView):
     View for listing and creating findings for a specific tenant.
     """
     def get_queryset(self):
-        tenant_id = self.kwargs.get('tenant_id')
-        return Finding.objects.filter(tenant_id=tenant_id)
+        id = self.kwargs.get('id')
+        breakpoint()
+        return Finding.objects.filter(tenant=id)
 
     def get_serializer_class(self):
         if self.request.method == 'POST':

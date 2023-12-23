@@ -21,7 +21,7 @@ def test_finding_model():
         created_at=timezone.now(),
         sensor='Sensor',
         resource=resource,
-        tenant_id=tenant
+        id=tenant
     )
 
     # Assert the values of the created Finding
@@ -47,5 +47,5 @@ def test_finding_model():
             created_at=timezone.now(),
             sensor='Sensor',
             resource=resource,
-            tenant_id=tenant
+            id=tenant
         )
