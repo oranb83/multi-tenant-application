@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from typing import Dict, Any
 
-from api.v1.resource.models import Resource
+from api.v1.resources.models import Resource
 from .models import Finding
 
 
@@ -12,6 +13,11 @@ class ResourceSerializer(serializers.ModelSerializer):
 
 
 class AddNewFindingSerializer(serializers.ModelSerializer):
+    """
+    Serializer for adding a new finding.
+
+    This serializer is used to validate and create a new finding object.
+    """
     resource = ResourceSerializer()
 
     class Meta:
@@ -20,20 +26,26 @@ class AddNewFindingSerializer(serializers.ModelSerializer):
             'external_id', 'type', 'title', 'severity', 'created_at', 'sensor', 'resource'
         )
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Validate the data before creating a new finding.
+
+        @raises ValidationError: If a finding with the same external ID already exists for the tenant.
+        """
         tenant_id = self.context['request'].parser_context['kwargs']['tenant_id']
         external_id = data.get('external_id')
 
-        # Check if external_id already exists for this tenant
-        # Assumption: external_id is unique per tenant
         if Finding.objects.filter(external_id=external_id, tenant_id=tenant_id).exists():
-            raise ValidationError(  # TODO: Add a custom exception that will return 422 instead of 400
+            raise ValidationError(
                 {"error": "Finding with this external ID already exists for this tenant"}
             )
 
         return data
 
-    def create(self, validated_data):
+    def create(self, validated_data: Dict[str, Any]) -> Finding:
+        """
+        Create a new finding object.
+        """
         resource_data = validated_data.pop('resource')
         resource = Resource.objects.create(**resource_data)
 
@@ -43,7 +55,11 @@ class AddNewFindingSerializer(serializers.ModelSerializer):
 
 
 class FindingListSerializer(serializers.ModelSerializer):
-    # The response is based on the findings examples
+    """
+    Serializer for listing findings.
+
+    This serializer formats the response for listing findings.
+    """
     id = serializers.ReadOnlyField(source='external_id')
     resource_id = serializers.CharField(source='resource.unique_id')
     resource_name = serializers.CharField(source='resource.name')

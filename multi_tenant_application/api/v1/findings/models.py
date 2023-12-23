@@ -1,18 +1,48 @@
 from django.db import models
 
-from api.v1.resource.models import Resource
-from api.v1.tenant.models import Tenant
-
+from api.v1.resources.models import Resource
+from api.v1.tenants.models import Tenant
 
 class Finding(models.Model):
-    # Note: I'm saving the choices, in the DB, as I get them to avoid the need to convert the data
-    # in the serializer upon each save and retrieve. I'm aware that this is not the best practice
-    # and if the task requested me also to support filters based on severity then there is no doubt
-    # that I would use a "PositiveSmallIntegerField" and save this column as a small unsigned int,
-    # which is much more effient when using a B-Tree index and impact performance.
-    # Since I'm not implementating any filters on the severity column, and I'm not sure if I will,
-    # at the moment, not adding this conversation is faster at this point until such filter will be
-    # added.
+    """
+    Represents a finding in the system.
+
+    @ivar external_id: The unique identifier for the finding.
+    @type external_id: str
+
+    @ivar type: The type of the finding.
+    @type type: str
+
+    @ivar title: The title of the finding.
+    @type title: str
+
+    @ivar severity: The severity level of the finding.
+    @type severity: str
+
+    @ivar created_at: The timestamp when the finding was created.
+    @type created_at: datetime
+
+    @ivar sensor: The sensor associated with the finding.
+    @type sensor: str
+
+    @ivar resource: The resource associated with the finding.
+    @type resource: Resource
+
+    @ivar tenant_id: The tenant associated with the finding.
+    @type tenant_id: Tenant
+
+    @ivar updated_at: The timestamp when the finding was last updated.
+    @type updated_at: datetime
+
+    @note: I've chosen to store the choices directly in the database to avoid repeated data
+    conversion during serialization for each save and retrieve operation.
+    Although this approach deviates from best practices, it ensures faster data access without
+    serialization overhead. In scenarios requiring severity-based filters,
+    a 'PositiveSmallIntegerField' could significantly enhance performance by storing this data
+    as a small unsigned integer. However, since I currently don't implement filters based on
+    severity and remain uncertain about its future implementation, I've prioritized expedited
+    functionality over this conversion until such filters become necessary.
+    """
     class SeverityChoices(models.TextChoices):
         CRITICAL = 'Critical', 'Critical'
         HIGH = 'High', 'High'
