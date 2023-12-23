@@ -1,9 +1,9 @@
 import pytest
 from django.utils import timezone
 
-from api.v1.findings.models import Finding
-from api.v1.resources.models import Resource
-from api.v1.tenants.models import Tenant
+from api.models.findings.models import Finding
+from api.models.findings.tenants.resources.models import Resource
+from api.models.findings.tenants.models import Tenant
 
 @pytest.mark.django_db
 def test_finding_model():

@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
 from typing import Dict, Any
 
-from api.v1.resources.models import Resource
-from .models import Finding
+from api.exceptions import DuplicatedExternalIdException
+from api.models.resources.models import Resource
+from ...models.findings.models import Finding
 
 
 class ResourceSerializer(serializers.ModelSerializer):
@@ -30,13 +30,13 @@ class AddNewFindingSerializer(serializers.ModelSerializer):
         """
         Validate the data before creating a new finding.
 
-        @raises ValidationError: If a finding with the same external ID already exists for the tenant.
+        @raises DuplicatedExternalIdException: If a finding with the same external ID already exists for the tenant.
         """
         tenant_id = self.context['request'].parser_context['kwargs']['tenant_id']
         external_id = data.get('external_id')
 
         if Finding.objects.filter(external_id=external_id, tenant_id=tenant_id).exists():
-            raise ValidationError(
+            raise DuplicatedExternalIdException(
                 {"error": "Finding with this external ID already exists for this tenant"}
             )
 

@@ -21,4 +21,5 @@ class TenantBasedRouter(DynamicDbRouter):
                 return f'db_server_{server_index + 1}'
 
         # Default to 'default' database if tenant ID is not provided.
+        # I should probably raise an exception here..
         return 'default'

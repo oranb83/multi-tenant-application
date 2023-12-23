@@ -1,13 +1,15 @@
 from rest_framework import generics
-from rest_framework.exceptions import ValidationError
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from .models import Finding
+from ...models.findings.models import Finding
 from .serializers import FindingListSerializer, AddNewFindingSerializer
 
 
 class FindingListCreateView(generics.ListCreateAPIView):
+    """
+    View for listing and creating findings for a specific tenant.
+    """
     serializer_class = FindingListSerializer
 
     def get_queryset(self):
@@ -27,6 +29,9 @@ class FindingListCreateView(generics.ListCreateAPIView):
         operation_description="This endpoint allows listing and creating findings for a specific tenant."
     )
     def post(self, request, *args, **kwargs):
+        """
+        View for creating findings for a specific tenant.
+        """
         return self.create(request, *args, **kwargs)
 
     @swagger_auto_schema(
@@ -42,4 +47,7 @@ class FindingListCreateView(generics.ListCreateAPIView):
         operation_description="This endpoint allows retrieving findings for a specific tenant."
     )
     def get(self, request, *args, **kwargs):
+        """
+        View for listing and creating findings for a specific tenant.
+        """
         return self.list(request, *args, **kwargs)
