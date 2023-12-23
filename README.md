@@ -46,7 +46,7 @@ This project is a multi-tenant Django application that implements a REST API for
 
 ## Running the Project
 
-### Using Docker (for running your DB in a container or do it yourself)
+### Running the DB in a container (or skip this step and run it locally)
 
 1. Ensure Docker is installed and running.
 2. Run the following command:
