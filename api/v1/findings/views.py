@@ -1,8 +1,7 @@
 from rest_framework import generics
 from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 
-from ...models.findings.models import Finding
+from api.models.findings.models import Finding
 from .serializers import FindingListSerializer, AddNewFindingSerializer
 
 
@@ -17,33 +16,20 @@ class FindingListCreateView(generics.ListCreateAPIView):
         return Finding.objects.filter(tenant_id=tenant_id)
 
     @swagger_auto_schema(
-        manual_parameters=[
-            openapi.Parameter('tenant_id', openapi.IN_PATH, description="Tenant ID",
-                              type=openapi.TYPE_STRING)
-        ],
         responses={
             201: AddNewFindingSerializer(),
-            422: "Validation error"
+            # I'm allowing myself a short cut by not using a serializer for the error response.
+            422: 'DuplicatedExternalIdException'
         },
-        operation_summary="Create a Finding for a single Tenant",
-        operation_description="This endpoint allows listing and creating findings for a specific tenant."
+        operation_summary='Create a Finding for a single Tenant',
+        operation_description='This endpoint allows creating a finding for a specific tenant.'
     )
     def post(self, request, *args, **kwargs):
-        """
-        Create a Finding for a single Tenant.
-        """
         return self.create(request, *args, **kwargs)
 
     @swagger_auto_schema(
-        manual_parameters=[
-            openapi.Parameter('tenant_id', openapi.IN_PATH, description="Tenant ID",
-                              type=openapi.TYPE_STRING)
-        ],
-        operation_summary="List Findings for a single Tenant",
-        operation_description="This endpoint allows retrieving findings for a specific tenant."
+        operation_summary='List Findings for a single Tenant',
+        operation_description='This endpoint allows listing findings for a specific tenant.'
     )
     def get(self, request, *args, **kwargs):
-        """
-        List Findings for a single Tenant.
-        """
         return self.list(request, *args, **kwargs)

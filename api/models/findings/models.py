@@ -3,6 +3,7 @@ from django.db import models
 from api.models.resources.models import Resource
 from api.models.tenants.models import Tenant
 
+
 class Finding(models.Model):
     """
     Represents a finding in the system.
@@ -49,8 +50,13 @@ class Finding(models.Model):
         MEDIUM = 'Medium', 'Medium'
         LOW = 'Low', 'Low'
 
-    # Indexes will be added based on the queries that will be performed on the DB.
-    external_id = models.CharField(max_length=255, primary_key=True)
+    # Note:
+    #   - Indexes will be added based on the queries that will be performed on the DB.
+    #   - I was not sure if the meaining was that the external_id is the primary key or not,
+    #     since I don't understand if an external_id can be shared with more than one tenant.
+    #     Anyway, I decided to add a unique constraint on the tenant_id and external_id columns,
+    #     since it makes sense to me.
+    external_id = models.CharField(max_length=255, null=False, blank=False)
     type = models.CharField(max_length=255, null=False, blank=False)
     title = models.CharField(max_length=511, null=False, blank=True)  # titles can empty strings?
     severity = models.CharField(max_length=15, choices=SeverityChoices.choices, null=False,
@@ -58,7 +64,9 @@ class Finding(models.Model):
     created_at = models.DateTimeField(null=False, blank=False)
     sensor = models.CharField(max_length=255, unique=True, null=False, blank=False)
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, null=False, blank=False)
-    tenant_id = models.ForeignKey(Tenant, on_delete=models.CASCADE, null=False, blank=False)
+    # Not entirely sure it should be represented as a foreign key, but it makes sense to me
+    tenant_id = models.ForeignKey(Tenant, on_delete=models.CASCADE, null=False, blank=False,
+                                  db_index=True)
     # Although not requested, it's important to add the updated_at column for
     # observability and debugging
     updated_at = models.DateTimeField(auto_now=True)
