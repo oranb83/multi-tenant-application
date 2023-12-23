@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from datetime import datetime
 from multi_tenant_application.api.models.resources.models import Resource
-from multi_tenant_application.api.models.tenants.models import Tenant
+from api.models.tenants.models import Tenant
 
 
 class FindingListCreateViewTests(APITestCase):
