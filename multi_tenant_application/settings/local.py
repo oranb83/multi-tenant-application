@@ -11,9 +11,9 @@ DATABASES.update(
             # Configuration for database server 1
             'ENGINE': DB_ENGINE,
             'NAME': DB_NAME,
-            'USER': os.environ['DB_USER'],
-            'PASSWORD': os.environ['DB_PASSWORD'],
-            'HOST': os.environ['DB_HOST'],
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
             'PORT': DB_PORT,
             'TEST': {'NAME': DB_TEST_NAME}
         }
@@ -22,24 +22,24 @@ DATABASES.update(
         #       I will also need to add the relevant environment variables to the Dockerfile.
         # 'db_server_2': {
         #     # Configuration for database server 2
-        #     'ENGINE': DB_ENGINE,
-        #     'NAME': DB_NAME,
-        #     'USER': os.environ['DB_USER'],
-        #     'PASSWORD': os.environ['DB_PASSWORD'],
-        #     'HOST': os.environ['DB_HOST_2'],
-        #     'PORT': DB_PORT,
-        #     'TEST': {'NAME': DB_TEST_NAME}
+        #            'ENGINE': DB_ENGINE,
+        #            'NAME': DB_NAME,
+        #            'USER': DB_USER,
+        #            'PASSWORD': DB_PASSWORD,
+        #            'HOST': os.environ['DB_HOST_2'],
+        #            'PORT': DB_PORT,
+        #            'TEST': {'NAME': DB_TEST_NAME}
         # },
         # 'db_server_3': {
         #     # Configuration for database server 3
-        #     'ENGINE': DB_ENGINE,
-        #     'NAME': DB_NAME,
-        #     'USER': os.environ['DB_USER'],
-        #     'PASSWORD': os.environ['DB_PASSWORD'],
-        #     'HOST': os.environ['DB_HOST_3'],
-        #     'PORT': DB_PORT,
-        #     'TEST': {'NAME': DB_TEST_NAME}
-        # }
+        #            'ENGINE': DB_ENGINE,
+        #            'NAME': DB_NAME,
+        #            'USER': DB_USER,
+        #            'PASSWORD': DB_PASSWORD,
+        #            'HOST': os.environ['DB_HOST_3'],
+        #            'PORT': DB_PORT,
+        #            'TEST': {'NAME': DB_TEST_NAME}
+        # },
 
         # Add more entries for additional databases if needed
     }
