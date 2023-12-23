@@ -8,6 +8,10 @@ ENV PYTHONUNBUFFERED 1
 ENV APP_NAME=multi-tenant-application
 ENV PATH=/root/.local/bin:$PATH
 
+ENV DB_USER=root
+ENV DB_PASSWORD=root
+ENV DB_HOST=localhost
+
 WORKDIR /app
 
 COPY poetry.lock pyproject.toml /app/
