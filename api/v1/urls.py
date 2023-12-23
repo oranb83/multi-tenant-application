@@ -19,5 +19,10 @@ urlpatterns = [
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
     # API Endpoints
+    # Note:
+    #   I added the "tenants/<int:tenant_id>" prefix, instead of adding it after the findings since
+    #   I have no context here. I don't know if the findings are tenant-specific or not and what
+    #   are the requirements for future tenants, so I assumed that all the endpoints are
+    #   tenant-specific.
     url(r'^tenants/<int:tenant_id>/findings/', include('api.v1.findings.urls')),
 ]

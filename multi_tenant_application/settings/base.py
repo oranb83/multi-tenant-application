@@ -13,6 +13,8 @@ DEBUG = True  # Set to False in production
 # Application definition
 INSTALLED_APPS = [
     'api',  # Application definition
+    'drf_yasg',
+    # 'django-filter',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,8 +39,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "social_django.context_processors.backends",
-                "social_django.context_processors.login_redirect",
             ]
         },
     }
@@ -64,13 +64,66 @@ MIDDLEWARE = [
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static"
 STATICFILES_FINDERS = (
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-    "django.contrib.staticfiles.finders.DefaultStorageFinder",
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages"
+            ]
+        },
+    }
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # Note: use JWTAutentication for a real application instead of the TokenAuthentication
+        'rest_framework.authentication.TokenAuthentication',  # Example: Token Authentication
+        'rest_framework.authentication.SessionAuthentication',  # Example: Session Authentication
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',  # Allow any access, no authentication required
+        # Note: wwitch to this one for production:
+        # 'rest_framework.permissions.IsAuthenticated',  # Only authenticated users have permissions
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer'
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100,  # Example: Default page size for pagination
+    # 'DEFAULT_FILTER_BACKENDS': (
+    #     'django_filters.rest_framework.DjangoFilterBackend',
+    #     'rest_framework.filters.SearchFilter'
+    # ),
+    'TEST_REQUEST_RENDERER_CLASSES': (
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+        "rest_framework_csv.renderers.CSVStreamingRenderer",
+        "api.renderers.FlatCSVStreamingRenderer",
+    ),
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+    # Note: implement to catch all exceptions since we don't want to expose any unhandled errors
+    # "EXCEPTION_HANDLER": "api.global_exceptions_handler.custom_exception_handler",
+}
 
 # Database router settings
 DATABASE_ROUTERS = ['multi_tenant_application.routers.TenantBasedRouter']

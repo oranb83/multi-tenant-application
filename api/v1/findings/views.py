@@ -30,7 +30,7 @@ class FindingListCreateView(generics.ListCreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         """
-        View for creating findings for a specific tenant.
+        Create a Finding for a single Tenant.
         """
         return self.create(request, *args, **kwargs)
 
@@ -39,15 +39,11 @@ class FindingListCreateView(generics.ListCreateAPIView):
             openapi.Parameter('tenant_id', openapi.IN_PATH, description="Tenant ID",
                               type=openapi.TYPE_STRING)
         ],
-        responses={
-            200: FindingListSerializer(many=True),
-            422: "Validation error"
-        },
         operation_summary="List Findings for a single Tenant",
         operation_description="This endpoint allows retrieving findings for a specific tenant."
     )
     def get(self, request, *args, **kwargs):
         """
-        View for listing and creating findings for a specific tenant.
+        List Findings for a single Tenant.
         """
         return self.list(request, *args, **kwargs)
