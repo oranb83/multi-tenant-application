@@ -20,7 +20,7 @@ DB_PORT = os.getenv('DB_PORT', '5432')
 DB_TEST_NAME = os.getenv('DB_TEST_NAME', 'multi_tenant_app')
 
 DATABASES = {
-    'default': {
+    'default': { # I must define a default since it's how Django works
         'ENGINE': DB_ENGINE,
         'NAME': DB_NAME,
         'USER': os.environ['DB_USER'],

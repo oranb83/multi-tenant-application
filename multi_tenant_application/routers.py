@@ -1,3 +1,4 @@
+from django.conf import settings
 from dynamic_db_router.router import DynamicDbRouter
 
 
@@ -14,12 +15,16 @@ class TenantBasedRouter(DynamicDbRouter):
             # Modify this logic based on your database mappings.
             # Distribute every 3 tenants to different database servers.
             if tenant_id:
-                # Distribute based on the last digit of tenant ID.
-                # Note: I did not implement a dynamic creation of the databases since it's out of scope
-                server_index = (int(tenant_id) % 3)
-                # Assuming database server names are db_server_1, db_server_2, db_server_3.
-                return f'db_server_{server_index + 1}'
+                # Every three consecutive tenant IDs are mapped to the same DB together
+                # Note: I did not implement a dynamic creation of the databases since it's
+                #       out of scope
+                db_server_index = (int(tenant_id) - 1) // 3
+                # Defensive programming: make sure we don't exceed the number of active DB servers
+                # I decided in this implementation to continue with the servers distribution
+                # sequence, but I can also raise a configuration error
+                amount_of_active_db_servers = len(settings.DATABASES) - 1  # subtracting the default DB
+                db_server_index %= amount_of_active_db_servers + 1
+                # Assuming database server names are db_server_1, db_server_2, db_server_3, etc.
+                return f'db_server_{db_server_index}'
 
-        # Default to 'default' database if tenant ID is not provided.
-        # I should probably raise an exception here..
-        return 'default'
+        raise ValueError('Tenant ID not found in request')

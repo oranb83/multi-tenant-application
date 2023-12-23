@@ -1,11 +1,38 @@
 # docker-compose.yml
-
 version: '3'
 
 services:
+  postgres:
+    image: postgres:13.7
+    container_name: postgres-multi-tenant
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: multi_tenant_app
+      POSTGRES_HOST_AUTH_METHOD: trust
+    networks:
+      - pgnetwork
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-multi-tenant
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: name@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    networks:
+      - pgnetwork
+
   web:
     build: .
     ports:
       - "8000:8000"
     volumes:
       - .:/app
+
+networks:
+  pgnetwork:
+    driver: bridge
