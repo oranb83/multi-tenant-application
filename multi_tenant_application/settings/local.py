@@ -44,6 +44,3 @@ DATABASES.update(
         # Add more entries for additional databases if needed
     }
 )
-
-# Set the 'default' database to use 'db_server_1' for testing
-DATABASES['default'] = DATABASES['db_server_1']
