@@ -15,14 +15,12 @@ class TestFindingsAPI:
         self.tenant.save()
 
         self.resource = Resource(
-            unique_id='foo:bar:hello:world',
+            unique_id='foo:bar:hello:world1',
             name='s3 bucket',
             cloud_account='12314ff2a3',
             tenant = self.tenant
         )
         self.resource.save()
-
-
 
         self.finding = Finding.objects.create(
             **{

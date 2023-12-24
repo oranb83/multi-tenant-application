@@ -11,7 +11,7 @@ class FindingListCreateView(generics.ListCreateAPIView):
     """
     def get_queryset(self):
         tenant_id = self.kwargs.get('id')
-        return Finding.objects.filter(resource_tenant=tenant_id).select_related('resource')
+        return Finding.objects.filter(resource__tenant=tenant_id).select_related('resource')
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
