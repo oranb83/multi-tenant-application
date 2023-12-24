@@ -58,7 +58,7 @@ class Finding(models.Model):
     #     since it makes sense to me.
     external_id = models.CharField(max_length=255, null=False, blank=False)
     type = models.CharField(max_length=255, null=False, blank=False)
-    title = models.CharField(max_length=511, null=False, blank=True)  # titles can empty strings?
+    title = models.CharField(max_length=511, null=False, blank=False)
     severity = models.CharField(max_length=15, choices=SeverityChoices.choices, null=False,
                                 blank=False)
     created_at = models.DateTimeField(null=False, blank=False)

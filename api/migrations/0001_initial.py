@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('external_id', models.CharField(max_length=255)),
                 ('type', models.CharField(max_length=255)),
-                ('title', models.CharField(blank=True, max_length=511)),
+                ('title', models.CharField(max_length=511)),
                 ('severity', models.CharField(choices=[('Critical', 'Critical'), ('High', 'High'), ('Medium', 'Medium'), ('Low', 'Low')], max_length=15)),
                 ('created_at', models.DateTimeField()),
                 ('sensor', models.CharField(max_length=255)),
