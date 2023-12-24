@@ -1,7 +1,7 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 from api.models.resources.models import Resource
-from api.models.tenants.models import Tenant
 
 
 class Finding(models.Model):
@@ -28,9 +28,6 @@ class Finding(models.Model):
 
     @ivar resource: The resource associated with the finding.
     @type resource: Resource
-
-    @ivar tenant: The tenant associated with the finding.
-    @type tenant: Tenant
 
     @ivar updated_at: The timestamp when the finding was last updated.
     @type updated_at: datetime
@@ -66,9 +63,6 @@ class Finding(models.Model):
     # will have better performace when we add an index.
     sensor = models.CharField(max_length=255, null=False, blank=False)
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, null=False, blank=False)
-    # Not entirely sure if it should be represented as a foreign key, but it makes sense to me.
-    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, null=False, blank=False,
-                               db_index=True)
     # Although not requested, it's important to add the updated_at column for
     # observability and debugging.
     updated_at = models.DateTimeField(auto_now=True)
@@ -76,5 +70,12 @@ class Finding(models.Model):
     def __str__(self):
         return f'{self.title} ({self.external_id})'
 
-    class Meta:
-        unique_together = ('tenant', 'external_id')
+    def validate_unique(self, *args, **kwargs):
+        super().validate_unique(*args, **kwargs)
+        if self.__class__.objects.\
+                filter(resource__tenant=self.resource.tenant, external_id=self.external_id).\
+                exists():
+            raise ValidationError(
+                message='Finding with this (resource__tenant, external_id) already exists.',
+                code='unique_together',
+            )

@@ -1,5 +1,7 @@
 from django.db import models
 
+from api.models.tenants.models import Tenant
+
 
 class Resource(models.Model):
     """
@@ -14,6 +16,9 @@ class Resource(models.Model):
     @ivar cloud_account: The cloud account associated with the resource.
     @type cloud_account: str
 
+    @ivar tenant: The tenant associated with the finding.
+    @type tenant: Tenant
+
     @method __str__: Returns a string representation of the resource.
 
     @ivar Meta: Metadata for the resource.
@@ -21,9 +26,13 @@ class Resource(models.Model):
     @ivar Meta.unique_together: Specifies the unique constraint for the resource.
     @type Meta.unique_together: tuple
     """
-    unique_id = models.CharField(max_length=255, null=False, blank=False)
+    unique_id = models.CharField(max_length=255, primary_key=True)
     name = models.CharField(max_length=255, null=False, blank=False)
+    # AWS account IDs are 12-digit numbers (e.g., 123456789012).
+    # Azure subscription IDs are unique identifiers that are GUIDs (Globally Unique Identifiers),
+    # which are 32-character hexadecimal strings.
     cloud_account = models.CharField(max_length=32, null=False, blank=False)
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
         return f'{self.name} ({self.unique_id})'

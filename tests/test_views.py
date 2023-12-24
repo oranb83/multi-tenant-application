@@ -11,15 +11,18 @@ from api.models.tenants.models import Tenant
 class TestFindingsAPI:
     @pytest.fixture(autouse=True)
     def setup_method(self):
+        self.tenant = Tenant(id=1)
+        self.tenant.save()
+
         self.resource = Resource(
             unique_id='foo:bar:hello:world',
             name='s3 bucket',
-            cloud_account='12314ff2a3'
+            cloud_account='12314ff2a3',
+            tenant = self.tenant
         )
         self.resource.save()
 
-        self.tenant = Tenant(id=1)
-        self.tenant.save()
+
 
         self.finding = Finding.objects.create(
             **{
@@ -30,7 +33,6 @@ class TestFindingsAPI:
                 'created_at': '2023-12-24T15:32:15.032Z',
                 'sensor': 'Orca',
                 'resource': self.resource,
-                'tenant': self.tenant
             }
         )
 
