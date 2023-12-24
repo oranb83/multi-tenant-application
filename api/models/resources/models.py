@@ -21,8 +21,7 @@ class Resource(models.Model):
     @ivar Meta.unique_together: Specifies the unique constraint for the resource.
     @type Meta.unique_together: tuple
     """
-    # I assume that the unique_id is the primary key of the resource based on it's name.
-    unique_id = models.CharField(max_length=255, primary_key=True)
+    unique_id = models.CharField(max_length=255, null=False, blank=False)
     name = models.CharField(max_length=255, null=False, blank=False)
     cloud_account = models.CharField(max_length=32, null=False, blank=False)
 
