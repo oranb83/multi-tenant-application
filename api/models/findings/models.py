@@ -62,7 +62,9 @@ class Finding(models.Model):
     severity = models.CharField(max_length=15, choices=SeverityChoices.choices, null=False,
                                 blank=False)
     created_at = models.DateTimeField(null=False, blank=False)
-    sensor = models.CharField(max_length=255, unique=True, null=False, blank=False)
+    # Sensor should probably be an ENUM since we should know all the sensors that we use and it
+    # will have better performace when we add an index.
+    sensor = models.CharField(max_length=255, null=False, blank=False)
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, null=False, blank=False)
     # Not entirely sure it should be represented as a foreign key, but it makes sense to me
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, null=False, blank=False,

@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(blank=True, max_length=511)),
                 ('severity', models.CharField(choices=[('Critical', 'Critical'), ('High', 'High'), ('Medium', 'Medium'), ('Low', 'Low')], max_length=15)),
                 ('created_at', models.DateTimeField()),
-                ('sensor', models.CharField(max_length=255, unique=True)),
+                ('sensor', models.CharField(max_length=255)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('resource', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.resource')),
                 ('tenant', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.tenant')),
