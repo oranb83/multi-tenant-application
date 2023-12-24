@@ -58,6 +58,8 @@ class Finding(models.Model):
     title = models.CharField(max_length=511, null=False, blank=False)
     severity = models.CharField(max_length=15, choices=SeverityChoices.choices, null=False,
                                 blank=False)
+    # I would have used the auto_now=True option, but I believe that the created_at field describes
+    # the time when the finding was created and not when it was added to the DB.
     created_at = models.DateTimeField(null=False, blank=False)
     # Sensor should probably be an ENUM since we should know all the sensors that we use and it
     # will have better performace when we add an index.

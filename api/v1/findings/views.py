@@ -27,6 +27,11 @@ class FindingListCreateView(generics.ListCreateAPIView):
         return super().get(request, *args, **kwargs)
 
     @swagger_auto_schema(
+        responses={
+            201: AddNewFindingSerializer(),
+            # I'm allowing myself a short cut by not using a serializer for the error response.
+            422: 'DuplicatedExternalIdException'
+        },
         operation_summary='Create a Finding for a specific Tenant',
         operation_description='This endpoint allows creating a finding for a specific tenant.'
     )
