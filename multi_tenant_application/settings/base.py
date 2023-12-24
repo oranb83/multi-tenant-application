@@ -22,7 +22,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'rest_framework',  # Enable rest framework
-    'dynamic_db_router',  # Enable DB router
     'django_extensions'
 ]
 
@@ -30,21 +29,21 @@ ROOT_URLCONF = 'multi_tenant_application.urls'
 
 TEMPLATES = [
     {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
             ]
         },
     }
 ]
 
-WSGI_APPLICATION = "multi_tenant_application.wsgi.application"
+WSGI_APPLICATION = 'multi_tenant_application.wsgi.application'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -61,28 +60,28 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
-STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 TEMPLATES = [
     {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages"
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages'
             ]
         },
     }
@@ -115,18 +114,18 @@ REST_FRAMEWORK = {
     #     'rest_framework.filters.SearchFilter'
     # ),
     'TEST_REQUEST_RENDERER_CLASSES': (
-        "rest_framework.renderers.JSONRenderer",
-        "rest_framework.renderers.BrowsableAPIRenderer",
-        "rest_framework_csv.renderers.CSVStreamingRenderer",
-        "api.renderers.FlatCSVStreamingRenderer",
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework_csv.renderers.CSVStreamingRenderer',
+        'api.renderers.FlatCSVStreamingRenderer',
     ),
-    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     # Note: implement to catch all exceptions since we don't want to expose any unhandled errors
-    # "EXCEPTION_HANDLER": "api.global_exceptions_handler.custom_exception_handler",
+    # 'EXCEPTION_HANDLER': 'api.global_exceptions_handler.custom_exception_handler',
 }
 
 # Database router settings
-DATABASE_ROUTERS = ['multi_tenant_application.routers.TenantBasedRouter']
+DATABASE_ROUTERS = ['api.routers.TenantBasedRouter']
 
 # Database configuration for PostgreSQL
 DB_ENGINE = os.getenv('DB_ENGINE', 'django.db.backends.postgresql')
