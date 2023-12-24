@@ -1,4 +1,5 @@
 import pytest
+import pytest
 from django.utils import timezone
 
 from api.models.findings.models import Finding
@@ -21,7 +22,7 @@ def test_finding_model():
         created_at=timezone.now(),
         sensor='Sensor',
         resource=resource,
-        id=tenant
+        tenant=tenant
     )
 
     # Assert the values of the created Finding
@@ -47,5 +48,31 @@ def test_finding_model():
             created_at=timezone.now(),
             sensor='Sensor',
             resource=resource,
-            id=tenant
+            tenant=tenant
         )
+
+    # Test finding with different severity
+    finding_low_severity = Finding.objects.create(
+        external_id='456',
+        type='Type',
+        title='Title',
+        severity=Finding.SeverityChoices.LOW,
+        created_at=timezone.now(),
+        sensor='Sensor',
+        resource=resource,
+        tenant=tenant
+    )
+    assert finding_low_severity.severity == Finding.SeverityChoices.LOW
+
+    # Test finding with empty title
+    finding_empty_title = Finding.objects.create(
+        external_id='789',
+        type='Type',
+        title='',
+        severity=Finding.SeverityChoices.MEDIUM,
+        created_at=timezone.now(),
+        sensor='Sensor',
+        resource=resource,
+        tenant=tenant
+    )
+    assert finding_empty_title.title == ''

@@ -25,5 +25,5 @@ urlpatterns = [
     #   I have no context here. I don't know if the findings are tenant-specific or not and what
     #   are the requirements for future tenants, so I assumed that all the endpoints are
     #   tenant-specific.
-    path('tenants/<int:tenant_id>/findings/', include('api.v1.findings.urls'))
+    path('tenants/<int:id>/findings/', include('api.v1.findings.urls'))
 ]

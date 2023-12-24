@@ -10,12 +10,13 @@ class FindingListCreateView(generics.ListCreateAPIView):
     View for listing and creating findings for a specific tenant.
     """
     def get_queryset(self):
-        tenant_id = self.kwargs.get('tenant_id')
+        tenant_id = self.kwargs.get('id')
         return Finding.objects.filter(tenant=tenant_id)
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return AddNewFindingSerializer
+
         return FindingListSerializer
 
     @swagger_auto_schema(

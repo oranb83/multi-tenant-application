@@ -36,13 +36,13 @@ class Finding(models.Model):
     @type updated_at: datetime
 
     @note: I've chosen to store the choices directly in the database to avoid repeated data
-    conversion during serialization for each save and retrieve operation.
-    Although this approach deviates from best practices, it ensures faster data access without
-    serialization overhead. In scenarios requiring severity-based filters,
-    a 'PositiveSmallIntegerField' could significantly enhance performance by storing this data
-    as a small unsigned integer. However, since I currently don't implement filters based on
-    severity and remain uncertain about its future implementation, I've prioritized expedited
-    functionality over this conversion until such filters become necessary.
+        conversion during serialization for each save and retrieve operation.
+        Although this approach deviates from best practices, it ensures faster data access without
+        serialization overhead. In scenarios requiring severity-based filters,
+        a 'PositiveSmallIntegerField' could significantly enhance performance by storing this data
+        as a small unsigned integer. However, since I currently don't implement filters based on
+        severity and remain uncertain about its future implementation, I've prioritized expedited
+        functionality over this conversion until such filters become necessary.
     """
     class SeverityChoices(models.TextChoices):
         CRITICAL = 'Critical', 'Critical'
@@ -66,11 +66,11 @@ class Finding(models.Model):
     # will have better performace when we add an index.
     sensor = models.CharField(max_length=255, null=False, blank=False)
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, null=False, blank=False)
-    # Not entirely sure it should be represented as a foreign key, but it makes sense to me
+    # Not entirely sure if it should be represented as a foreign key, but it makes sense to me.
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, null=False, blank=False,
                                db_index=True)
     # Although not requested, it's important to add the updated_at column for
-    # observability and debugging
+    # observability and debugging.
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
