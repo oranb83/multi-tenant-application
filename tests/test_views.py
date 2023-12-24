@@ -1,56 +1,69 @@
-from datetime import datetime
-
+import pytest
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase
 
-from api.models.resources.models import Resource
-from api.models.tenants.models import Tenant
-from datetime import datetime
-from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APITestCase
+from api.models.findings.models import Finding
 from api.models.resources.models import Resource
 from api.models.tenants.models import Tenant
 
 
-class FindingListCreateViewTests(APITestCase):
-    def setUp(self):
-        self.tenant = Tenant.objects.create(id=1)  # Create a Tenant object
-        self.resource = Resource.objects.create(unique_id='123', name='TestResource', cloud_account='AWS')  # Create a Resource object
-        self.valid_test_data = {
-            'external_id': '001',
-            'type': 'Type A',
-            'title': 'Title A',
-            'severity': 'High',
-            'created_at': datetime.now(),
-            'sensor': 'Sensor A',
-            'resource': self.resource,
-            'id': self.tenant.id
+@pytest.mark.django_db(databases=['default', 'db_server_1'])
+class TestFindingsAPI:
+    @pytest.fixture(autouse=True)
+    def setup_method(self):
+        self.resource = Resource(
+            unique_id='foo:bar:hello:world',
+            name='s3 bucket',
+            cloud_account='12314ff2a3'
+        )
+        self.resource.save()
+
+        self.tenant = Tenant(id=1)
+        self.tenant.save()
+
+        self.finding = Finding.objects.create(
+            **{
+                'external_id': 'myid1',
+                'type': 'mytype',
+                'title': 'my name is Oran',
+                'severity': 'Critical',
+                'created_at': '2023-12-24T15:32:15.032Z',
+                'sensor': 'Orca',
+                'resource': self.resource,
+                'tenant': self.tenant
+            }
+        )
+
+    def test_list_findings(self, client):
+        # Arrange
+        url = reverse('findings-list-create', kwargs={'id': self.tenant.id})
+
+        # Act
+        response = client.get(url)
+
+        # Assert
+        assert response.status_code == status.HTTP_200_OK
+
+
+    def test_create_finding(self, client):
+        # Arrange
+        url = reverse('findings-list-create', kwargs={'id': self.tenant.id})
+        data = {
+            'external_id': 'myid2',
+            'type': 'mytype',
+            'title': 'my name is Oran',
+            'severity': 'Critical',
+            'created_at': '2023-12-24T15:32:15.032Z',
+            'sensor': 'Orca',
+            'resource': {
+                'unique_id': 'foo:bar:hello:world',
+                'name': 's3 bucket',
+                'cloud_account': '12314ff2a3'
+            }
         }
 
+        # Act
+        response = client.post(url, data, content_type='application/json')
 
-    class FindingListCreateViewTests(APITestCase):
-        def setUp(self):
-            self.tenant = Tenant.objects.create(id=1)  # Create a Tenant object
-            self.resource = Resource.objects.create(unique_id='123', name='TestResource', cloud_account='AWS')  # Create a Resource object
-            self.valid_test_data = {
-                'external_id': '001',
-                'type': 'Type A',
-                'title': 'Title A',
-                'severity': 'High',
-                'created_at': datetime.now().isoformat(),
-                'sensor': 'Sensor A',
-                'resource': self.resource.unique_id,
-                'tenant': self.tenant.id
-            }
-
-        def test_create_finding(self):
-            url = reverse('finding-list-create', kwargs={'id': self.tenant.id})
-            response = self.client.post(url, self.valid_test_data, format='json')
-            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
-        def test_list_findings(self):
-            url = reverse('finding-list-create', kwargs={'id': self.tenant.id})
-            response = self.client.get(url)
-            self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # Assert
+        assert response.status_code == status.HTTP_201_CREATED

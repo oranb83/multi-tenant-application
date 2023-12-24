@@ -51,13 +51,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MIDDLEWARE = [
     # Django's built-in middleware classes
+    'api.middleware.RouterMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 STATIC_URL = '/static/'
@@ -134,6 +135,7 @@ DB_USER = os.getenv('DB_USER', 'root')
 DB_PASSWORD = os.getenv('DB_PASSWORD', 'root')
 DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
 DB_PORT = os.getenv('DB_PORT', '5432')
+# Need to change the test DB to a different one since Django will drop the DB after each test
 DB_TEST_NAME = os.getenv('DB_TEST_NAME', 'test_multi_tenant_app')
 
 DATABASES = {
