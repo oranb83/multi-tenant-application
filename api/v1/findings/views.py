@@ -20,7 +20,7 @@ class FindingListCreateView(generics.ListCreateAPIView):
         return FindingListSerializer
 
     @swagger_auto_schema(
-        operation_summary='List Findings for a single Tenant',
+        operation_summary='List Findings for a specific Tenant',
         operation_description='This endpoint allows listing findings for a specific tenant.'
     )
     def get(self, request, *args, **kwargs):
@@ -32,7 +32,7 @@ class FindingListCreateView(generics.ListCreateAPIView):
             # I'm allowing myself a short cut by not using a serializer for the error response.
             422: 'DuplicatedExternalIdException'
         },
-        operation_summary='Create a Finding for a single Tenant',
+        operation_summary='Create a Finding for a specific Tenant',
         operation_description='This endpoint allows creating a finding for a specific tenant.'
     )
     def post(self, request, *args, **kwargs):
