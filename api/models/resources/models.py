@@ -26,7 +26,7 @@ class Resource(models.Model):
     @ivar Meta.unique_together: Specifies the unique constraint for the resource.
     @type Meta.unique_together: tuple
     """
-    unique_id = models.CharField(max_length=255, primary_key=True)
+    unique_id = models.CharField(max_length=255, null=False, blank=False)
     name = models.CharField(max_length=255, null=False, blank=False)
     # AWS account IDs are 12-digit numbers (e.g., 123456789012).
     # Azure subscription IDs are unique identifiers that are GUIDs (Globally Unique Identifiers),
