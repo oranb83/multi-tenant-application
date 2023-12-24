@@ -68,7 +68,7 @@ This project is a multi-tenant Django application that implements a REST API for
 Once the server is running:
 
 - Access the Swagger at `http://localhost:8000/api/v1/swagger/`.
-- Use the REST APIs for managing findings (e.g., `http://localhost:8000/api/v1/findings/`).
+- Use the REST APIs for managing findings (e.g., `http://localhost:8000/tenants/<int:id>/api/v1/findings/`).
 
 ## Running Tests
 
